@@ -261,8 +261,9 @@ function makeRequest($url) {
 //Converts relative URLs to absolute ones, given a base URL.
 //Modified version of code found at http://nashruddin.com/PHP_Script_for_Converting_Relative_to_Absolute_URL
 function rel2abs($rel, $base) {
+
   if (empty($rel)) $rel = ".";
-  if (parse_url($rel, PHP_URL_SCHEME) != "" || strpos($rel, "//") === 0) return $rel; //Return if already an absolute URL
+  if (parse_url($rel, PHP_URL_SCHEME) != "" || strpos($rel, "//") === 0) return "http://" . ltrim($rel, '/'); //Return if already an absolute URL - AAVIATOR42 EDIT
   if ($rel[0] == "#" || $rel[0] == "?") return $base.$rel; //Queries and anchors
   extract(parse_url($base)); //Parse base URL and convert to local variables: $scheme, $host, $path
   $path = isset($path) ? preg_replace("#/[^/]*$#", "", $path) : "/"; //Remove non-directory element from path
@@ -324,7 +325,7 @@ function proxifySrcset($srcset, $baseURL) {
   $proxifiedSources = array_map(function($source) use ($baseURL) {
     $components = array_map("trim", str_split($source, strrpos($source, " "))); //Split by last space and trim
     $components[0] = PROXY_PREFIX . rel2abs(ltrim($components[0], "/"), $baseURL); //First component of the split source string should be an image URL; proxify it
-    return implode($components, " "); //Recombine the components into a single source
+    return implode(" ", $components); //Recombine the components into a single source
   }, $sources);
   $proxifiedSrcset = implode(", ", $proxifiedSources); //Recombine the sources into a single "srcset"
   return $proxifiedSrcset;
