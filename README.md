@@ -1,6 +1,6 @@
 # miniProxy
 
-Originally *by Joshua Dick*. *[src](http://joshdick.github.io/miniProxy)*. Modified for PHP8 support by @aaviator42.
+Originally *by Joshua Dick* *([src](http://joshdick.github.io/miniProxy))*. Modified for PHP8 support by @aaviator42.
 
 ---
 
